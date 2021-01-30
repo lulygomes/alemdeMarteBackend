@@ -1,4 +1,8 @@
-import api from "../config/api";
+import { getRepository } from 'typeorm';
+
+// import Likes from '../models/Likes';
+
+import api from '../config/api';
 
 interface ResponseData {
   id: number;
@@ -12,10 +16,32 @@ interface ResponseData {
 
 class GetRecentPhotoService {
   public async execute(): Promise<ResponseData> {
-    const response = await api.get("/");
+    try {
+      const response = await api.get('/');
+      const { photos } = response.data;
 
-    return response.data;
+      return photos;
+    } catch (err) {
+      throw new Error(err);
+    }
   }
 }
 
 export default GetRecentPhotoService;
+
+// const likesRepository = getRepository(Likes);
+
+// const photoLikedList = await likesRepository.find();
+
+// Filtro para Add likes nas fotos
+// const photosWithLike = photos.map((photo: ResponseData) => {
+//   const photoLiked = photoLikedList.find(
+//     (like: Likes) => Number(like.photo_id) === photo.id,
+//   );
+
+//   if (photoLiked) {
+//     return { photo, like: photoLiked.likes };
+//   }
+
+//   return photo;
+// });

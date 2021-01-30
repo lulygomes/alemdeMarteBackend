@@ -1,15 +1,23 @@
-import { Router } from "express";
+import { Router } from 'express';
 
-import GetRecentPhotoService from "../services/getRecentPhotosService";
+import GetRecentPhotoService from '../services/getRecentPhotosService';
+
+import ensureAuthenticated from '../middlewares/ensureAuthenticated';
 
 const photoRoutes = Router();
 
-photoRoutes.get("/", async (request, response) => {
-  const getRecentPhotos = new GetRecentPhotoService();
+photoRoutes.use(ensureAuthenticated);
 
-  const photos = await getRecentPhotos.execute();
+photoRoutes.get('/', async (request, response) => {
+  try {
+    const getRecentPhotos = new GetRecentPhotoService();
 
-  return response.json(photos);
+    const photos = await getRecentPhotos.execute();
+
+    return response.json(photos);
+  } catch (err) {
+    throw new Error(err);
+  }
 });
 
 export default photoRoutes;
