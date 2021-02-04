@@ -2,6 +2,7 @@ import { Router } from 'express';
 
 import LikePhotoService from '../services/likePhotoService';
 import ListLikeByPhotoIdService from '../services/listLikeByPhotoIdService';
+import ListAllLikes from '../services/listAllLikesService';
 
 import ensureAuthenticated from '../middlewares/ensureAuthenticated';
 
@@ -9,7 +10,17 @@ const likesRoutes = Router();
 
 likesRoutes.use(ensureAuthenticated);
 
-likesRoutes.get('/:photoId', async (request, response) => {
+// like/ retorna todos os likes
+likesRoutes.get('/', async (request, response) => {
+  const listAllLikes = new ListAllLikes();
+
+  const likes = await listAllLikes.execute();
+
+  return response.json(likes);
+});
+
+// like/photo/:photoId Retorna like por foto
+likesRoutes.get('/photo/:photoId', async (request, response) => {
   const listLikeByPhotoId = new ListLikeByPhotoIdService();
   const { photoId } = request.params;
 
@@ -17,8 +28,8 @@ likesRoutes.get('/:photoId', async (request, response) => {
 
   return response.json(like);
 });
-
-likesRoutes.post('/:photoId', async (request, response) => {
+// like/:photoId adiciona ou remover like na photo
+likesRoutes.post('/photo/:photoId', async (request, response) => {
   const likePhoto = new LikePhotoService();
   const { photoId } = request.params;
   const { id: userId } = request.user;

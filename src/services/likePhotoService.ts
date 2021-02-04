@@ -1,5 +1,6 @@
-import { getRepository } from 'typeorm';
+import { getRepository, getCustomRepository } from 'typeorm';
 
+import TotalLikesRepository from '../repositories/TotalLikesRepository';
 import Like from '../models/Like';
 
 interface ResponseData {
@@ -18,6 +19,7 @@ class LikePhotoService {
   }: RequestData): Promise<Like | ResponseData> {
     try {
       const likeRepository = getRepository(Like);
+      const totalLikesRepository = getCustomRepository(TotalLikesRepository);
 
       const likeExist = await likeRepository.findOne({
         where: { photo_id, user_id },
@@ -25,6 +27,8 @@ class LikePhotoService {
 
       if (likeExist) {
         await likeRepository.remove(likeExist);
+
+        await totalLikesRepository.removeLike(likeExist.photo_id);
 
         return { message: 'like removed' };
       }
@@ -35,6 +39,7 @@ class LikePhotoService {
       });
 
       const updatePhotoLike = await likeRepository.save(likePhoto);
+      await totalLikesRepository.addLike(updatePhotoLike.photo_id);
 
       return updatePhotoLike;
     } catch (err) {
