@@ -21,10 +21,12 @@ yarn dev:server
 
 ## Rotas
 
-__*POST*  http://api.com/user/:USER-NAME__
+__*POST:*   http://api.com/user/:USER-NAME__
+
 Cria o usuário caso não exista e retornar o user com token.
 
-_*Response*_
+
+_*Response:*_
 ```
 {
   "user": {
@@ -37,4 +39,21 @@ _*Response*_
 }
 ```
 
-__*POST* http://api.com/like/photo/:PHOTO-ID__
+
+
+__*POST:*  http://api.com/like/photo/:PHOTO-ID__
+
+Cria um like na foto atrelado ao ID do usuário e soma um no total de likes. 
+Caso já exista um like na foto com o ID do usuário, o mesmo é removido e subtraído um do total de likes. 
+
+
+_*Response:*_
+```
+{
+  "id": "c93c0a1f-53c1-42eb-9bcb-33b50efc1ce6",
+  "photo_id": "785642",
+  "likes": 3,
+  "created_at": "2021-02-04T13:25:00.000Z",
+  "updated_at": "2021-02-04T18:55:26.000Z"
+}
+```
