@@ -42,6 +42,7 @@ _*Response:*_
 
 
 __*POST:*  http://api.com/like/photo/:PHOTO-ID__
+**_Requer token no Header da requisição_**
 
 Cria um like na foto atrelado ao ID do usuário e soma um no total de likes. 
 Caso já exista um like na foto com o ID do usuário, o mesmo é removido e subtraído um do total de likes. 
@@ -56,4 +57,136 @@ _*Response:*_
   "created_at": "2021-02-04T13:25:00.000Z",
   "updated_at": "2021-02-04T18:55:26.000Z"
 }
+```
+
+
+
+__*GET:*  http://api.com/like/photo/:PHOTO-ID__
+**_Requer token no Header da requisição_**
+
+Retorna uma lista com os likes feitos na foto.
+
+
+_*Response:*_
+```
+[
+  {
+    "id": "b743394d-75fc-452b-8a77-d8b90f84d164",
+    "photo_id": "785642",
+    "user_id": "0a86917f-79ef-459d-808d-62b6607cae17",
+    "created_at": "2021-02-04T13:25:00.000Z",
+    "updated_at": "2021-02-04T13:25:00.000Z"
+  }, 
+  { ... },
+  { ... }, 
+]
+```
+
+
+
+__*GET:*  http://api.com/like__
+**_Requer token no Header da requisição_**
+
+Retorna uma lista com os todos likes feitos.
+
+
+_*Response:*_
+```
+[
+  {
+    "id": "b743394d-75fc-452b-8a77-d8b90f84d164",
+    "photo_id": "785642",
+    "user_id": "0a86917f-79ef-459d-808d-62b6607cae17",
+    "created_at": "2021-02-04T13:25:00.000Z",
+    "updated_at": "2021-02-04T13:25:00.000Z"
+  },
+  {
+    "id": "b102bd3c-50d4-4723-a79b-4227b74ecccc",
+    "photo_id": "785645",
+    "user_id": "0a86917f-79ef-459d-808d-62b6607cae17",
+    "created_at": "2021-02-04T13:31:08.000Z",
+    "updated_at": "2021-02-04T13:31:08.000Z"
+  },
+  { ... },
+  { ... }, 
+]
+```
+
+
+
+__*GET:*  http://api.com/photos__
+**_Requer token no Header da requisição_**
+
+Retorna uma lista com os fotos fornecidas pela NASA, incluindo total de likes e se usuário deu um like na foto
+
+
+_*Response:*_
+```
+[
+{
+    "id": 785640,
+    "sol": 2991,
+    "camera": {
+      "id": 20,
+      "name": "FHAZ",
+      "rover_id": 5,
+      "full_name": "Front Hazard Avoidance Camera"
+    },
+    "img_src": "https://mars.nasa.gov/msl-raw-images/proj/msl/redops/ods/surface/sol/02991/opgs/edr/fcam/FLB_663015554EDR_F0842120FHAZ00302M_.JPG",
+    "earth_date": "2021-01-04",
+    "rover": {
+      "id": 5,
+      "name": "Curiosity",
+      "landing_date": "2012-08-06",
+      "launch_date": "2011-11-26",
+      "status": "active"
+    },
+    "likes": 3,
+    "like": true
+  },
+  {
+    "id": 785641,
+    "sol": 2991,
+    "camera": {
+      "id": 20,
+      "name": "FHAZ",
+      "rover_id": 5,
+      "full_name": "Front Hazard Avoidance Camera"
+    },
+    "img_src": "https://mars.nasa.gov/msl-raw-images/proj/msl/redops/ods/surface/sol/02991/opgs/edr/fcam/FRB_663015554EDR_F0842120FHAZ00302M_.JPG",
+    "earth_date": "2021-01-04",
+    "rover": {
+      "id": 5,
+      "name": "Curiosity",
+      "landing_date": "2012-08-06",
+      "launch_date": "2011-11-26",
+      "status": "active"
+    },
+    "likes": 1,
+    "like": false
+  },
+  {
+    "id": 785642,
+    "sol": 2991,
+    "camera": {
+      "id": 20,
+      "name": "FHAZ",
+      "rover_id": 5,
+      "full_name": "Front Hazard Avoidance Camera"
+    },
+    "img_src": "https://mars.nasa.gov/msl-raw-images/proj/msl/redops/ods/surface/sol/02991/opgs/edr/fcam/FLB_663015329EDR_F0842116FHAZ00322M_.JPG",
+    "earth_date": "2021-01-04",
+    "rover": {
+      "id": 5,
+      "name": "Curiosity",
+      "landing_date": "2012-08-06",
+      "launch_date": "2011-11-26",
+      "status": "active"
+    },
+    "likes": 2,
+    "like": true
+  },
+  { ... },
+  { ... }, 
+]
 ```
