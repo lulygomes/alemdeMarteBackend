@@ -28,7 +28,7 @@ likesRoutes.get('/photo/:photoId', async (request, response) => {
 
   return response.json(like);
 });
-// like/:photoId adiciona ou remover like na photo
+// like/photo/:photoId adiciona ou remover like na photo
 likesRoutes.post('/photo/:photoId', async (request, response) => {
   const likePhoto = new LikePhotoService();
   const { photoId } = request.params;
