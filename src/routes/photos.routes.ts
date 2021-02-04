@@ -11,8 +11,9 @@ photoRoutes.use(ensureAuthenticated);
 photoRoutes.get('/', async (request, response) => {
   try {
     const getRecentPhotos = new GetRecentPhotoService();
+    const user_id = request.user.id;
 
-    const photos = await getRecentPhotos.execute();
+    const photos = await getRecentPhotos.execute(user_id);
 
     return response.json(photos);
   } catch (err) {

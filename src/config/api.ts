@@ -12,6 +12,7 @@ const api = axios.create({
   params: {
     earth_date: formattedDate,
     api_key,
+    page: 1,
   },
 });
 

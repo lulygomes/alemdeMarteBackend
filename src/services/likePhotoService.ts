@@ -2,10 +2,7 @@ import { getRepository, getCustomRepository } from 'typeorm';
 
 import TotalLikesRepository from '../repositories/TotalLikesRepository';
 import Like from '../models/Like';
-
-interface ResponseData {
-  message: string;
-}
+import TotalLikes from '../models/TotalLikes';
 
 interface RequestData {
   photoId: string;
@@ -16,7 +13,7 @@ class LikePhotoService {
   public async execute({
     photoId: photo_id,
     userId: user_id,
-  }: RequestData): Promise<Like | ResponseData> {
+  }: RequestData): Promise<TotalLikes> {
     try {
       const likeRepository = getRepository(Like);
       const totalLikesRepository = getCustomRepository(TotalLikesRepository);
@@ -28,9 +25,11 @@ class LikePhotoService {
       if (likeExist) {
         await likeRepository.remove(likeExist);
 
-        await totalLikesRepository.removeLike(likeExist.photo_id);
+        const totalLikes = await totalLikesRepository.removeLike(
+          likeExist.photo_id,
+        );
 
-        return { message: 'like removed' };
+        return totalLikes;
       }
 
       const likePhoto = likeRepository.create({
@@ -39,9 +38,11 @@ class LikePhotoService {
       });
 
       const updatePhotoLike = await likeRepository.save(likePhoto);
-      await totalLikesRepository.addLike(updatePhotoLike.photo_id);
+      const totalLikes = await totalLikesRepository.addLike(
+        updatePhotoLike.photo_id,
+      );
 
-      return updatePhotoLike;
+      return totalLikes;
     } catch (err) {
       throw new Error(err);
     }
